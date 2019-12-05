@@ -1,5 +1,10 @@
+# Node Modules
 node_modules
 
+# Terraform
 terraform/.terraform
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
+
+# Misc
+dist

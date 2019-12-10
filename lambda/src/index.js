@@ -1,28 +1,27 @@
 const axios = require("axios");
+const { getAccessKey, handleParams, response } = require("./util");
 
-const apiBaseUrl = "http://api.weatherstack.com";
-const accessKey = "ABC123";
+const apiBaseUrl = "http://api.weatherstack.com/current";
 
-exports.handler = async (event, context, callback) => {
-  const ipAddress = event.requestContext.identity.sourceIp;
-  const weather = await getWeather(ipAddress);
+exports.handler = async event => {
+  try {
+    const accessKey = getAccessKey(event);
+    const query = handleParams(event);
+    const weather = await getWeather(accessKey, query);
 
-  const response = {
-    statusCode: 200,
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      weather
-    })
-  };
-
-  callback(null, response);
+    return response(200, weather);
+  } catch (err) {
+    return response(500, err.message);
+  }
 };
 
-const getWeather = async ipAddress => {
-  return await axios.get(`${apiBaseUrl}/current`, {
-    access_key: accessKey,
-    query: ipAddress
+const getWeather = async (accessKey, query) => {
+  const res = await axios.get(`${apiBaseUrl}`, {
+    params: {
+      access_key: accessKey,
+      query
+    }
   });
+
+  return res.data;
 };

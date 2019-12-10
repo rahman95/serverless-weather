@@ -15,6 +15,7 @@
   "author": "Rahman Younus <rahman_95@live.co.uk>",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-kms-node": "^0.1.0-preview.2",
     "axios": "^0.19.0"
   }
 }

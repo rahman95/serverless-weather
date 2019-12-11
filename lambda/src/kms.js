@@ -1,8 +1,4 @@
-// https://github.com/aws/aws-sdk-js-v3/tree/master/clients/node/client-kms-node
-
 const { KMSClient } = require("@aws-sdk/client-kms-node");
-
-const encrypted = process.env["ACCESS_KEY"];
 
 function decryptValue(encrypted)
 {
@@ -18,3 +14,4 @@ function decryptValue(encrypted)
   }
 }
 
+module.exports = { decryptValue };

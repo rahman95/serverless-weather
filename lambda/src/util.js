@@ -1,5 +1,15 @@
-const env = (key, defaultValue = null) => {
-  return process.env[key] || defaultValue;
+const { decryptValue } = require("./kms");
+
+const env = (key, isEncrypted, defaultValue = null) => {
+  if (!process.env[key]) {
+    return defaultValue;
+  }
+
+  if (!isEncrypted) {
+    return process.env[key];
+  }
+
+  return decryptValue(process.env[key]);
 };
 
 const getQueryParam = (event, key) => {
@@ -22,7 +32,7 @@ const handleParams = event => {
 };
 
 const getAccessKey = event => {
-  const accessKey = env("ACCESS_KEY", getQueryParam(event, "access_key"));
+  const accessKey = env("ACCESS_KEY", true, getQueryParam(event, "access_key"));
 
   if (!accessKey) {
     throw new Error("No Access key passed!");

@@ -10,7 +10,7 @@ function decryptValue(encrypted)
   
     return res.Plaintext.toString();
   } catch(err) {
-    throw new Error(err.message)
+    throw new Error("An error occured trying to decrypt value")
   }
 }
 

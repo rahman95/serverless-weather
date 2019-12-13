@@ -5,7 +5,7 @@ const apiBaseUrl = "http://api.weatherstack.com/current";
 
 exports.handler = async event => {
   try {
-    const accessKey = getAccessKey(event);
+    const accessKey = await getAccessKey(event);
     const query = handleParams(event);
     const weather = await getWeather(accessKey, query);
 

@@ -1,6 +1,6 @@
 const { decryptValue } = require("./kms");
 
-const env = (key, isEncrypted, defaultValue = null) => {
+const env = async (key, isEncrypted, defaultValue = null) => {
   if (!process.env[key]) {
     return defaultValue;
   }
@@ -9,7 +9,7 @@ const env = (key, isEncrypted, defaultValue = null) => {
     return process.env[key];
   }
 
-  return decryptValue(process.env[key]);
+  return await decryptValue(process.env[key]);
 };
 
 const getQueryParam = (event, key) => {

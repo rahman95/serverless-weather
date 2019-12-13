@@ -14,7 +14,7 @@ resource "aws_lambda_layer_version" "dependency_layer" {
 resource "aws_lambda_function" "weather_lambda" {
   filename      = "${data.archive_file.function_archive.output_path}"
   function_name = "${local.name}"
-  role          = "${aws_iam_role.terraform_lambda_iam_role.arn}"
+  role          = "${aws_iam_role.weather_lambda_role.arn}"
 
   layers           = ["${aws_lambda_layer_version.dependency_layer.arn}"]
   memory_size      = "${local.lambda_memory}"
@@ -27,7 +27,7 @@ resource "aws_lambda_function" "weather_lambda" {
 
   environment {
     variables = {
-      foo = "bar"
+      "ACCESS_KEY" = "${var.api_access_key}"
     }
   }
 }

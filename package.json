@@ -5,9 +5,9 @@
   "scripts": {
     "zip": "./scripts/build_lambda_layers.sh",
     "tf:init": "cd terraform; terraform init",
-    "tf:plan": "cd terraform; terraform plan",
-    "tf:apply": "cd terraform; terraform apply",
-    "tf:destroy": "cd terraform; terraform destroy -auto-approve",
+    "tf:plan": "cd terraform; terraform plan -var-file ./config/terraform.tfvars",
+    "tf:apply": "cd terraform; terraform apply -var-file ./config/terraform.tfvars",
+    "tf:destroy": "cd terraform; terraform destroy -auto-approve -var-file ./config/terraform.tfvars",
     "deploy:all": "yarn zip; yarn tf:apply -auto-approve",
     "update:all": "yarn tf:destroy -auto-approve; yarn zip; yarn tf:apply -auto-approve"
   },

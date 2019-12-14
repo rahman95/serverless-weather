@@ -1,8 +1,8 @@
-const { KMSClient } = require("@aws-sdk/client-kms-node");
+const { KMS } = require("aws-sdk");
 
 const decryptValue = async encrypted => {
   try {
-    const kms = new KMSClient();
+    const kms = new KMS();
     const res = await kms
       .decrypt({
         CiphertextBlob: new Buffer(encrypted, "base64")

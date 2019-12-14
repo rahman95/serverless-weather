@@ -5,7 +5,7 @@ const decryptValue = async encrypted => {
     const kms = new KMS();
     const res = await kms
       .decrypt({
-        CiphertextBlob: new Buffer(encrypted, "base64")
+        CiphertextBlob: Buffer.from(encrypted, "base64")
       })
       .promise();
 

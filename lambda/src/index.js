@@ -9,9 +9,13 @@ exports.handler = async event => {
     const query = handleParams(event);
     const weather = await getWeather(accessKey, query);
 
-    return response(200, weather);
+    if (!weather || !weather.hasOwnProperty("location")) {
+      throw new Error("No Weather data found!");
+    }
+
+    return await response(200, { weather });
   } catch (err) {
-    return response(500, err.message);
+    return await response(500, { message: err.message });
   }
 };
 

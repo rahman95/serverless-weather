@@ -1,4 +1,9 @@
+const ejs = require("ejs");
 const { decryptValue } = require("./kms");
+
+const viewDir = "./view";
+const successView = `${viewDir}/success.ejs`;
+const errorView = `${viewDir}/error.ejs`;
 
 const env = async (key, isEncrypted, defaultValue = null) => {
   if (!process.env[key]) {
@@ -53,13 +58,21 @@ const getIpAddress = event => {
   );
 };
 
-const response = (statusCode, content) => {
+const renderHtml = async (success, data) => {
+  const filename = success ? successView : errorView;
+
+  return await ejs.renderFile(filename, data);
+};
+
+const response = async (statusCode, content) => {
+  const html = await renderHtml(statusCode == 200, content);
+
   return {
     statusCode,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "text/html"
     },
-    body: JSON.stringify(content)
+    body: html
   };
 };
 

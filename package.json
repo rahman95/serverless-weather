@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "zip": "./scripts/build_lambda_layers.sh",
+    "build": "tsc",
     "tf:init": "cd terraform; terraform init",
     "tf:plan": "cd terraform; terraform plan -var-file ./config/terraform.tfvars",
     "tf:apply": "cd terraform; terraform apply -var-file ./config/terraform.tfvars",
@@ -18,5 +19,14 @@
     "aws-sdk": "^2.589.0",
     "axios": "^0.19.0",
     "ejs": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.39",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/ejs": "^3.0.0",
+    "@types/node": "^12.12.18",
+    "ts-node": "^8.5.4",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.7.2"
   }
 }

@@ -1,6 +1,6 @@
 const { KMS } = require("aws-sdk");
 
-const decryptValue = async encrypted => {
+const decryptValue = async (encrypted: string): Promise<string> => {
   try {
     const kms = new KMS();
     const res = await kms
@@ -15,4 +15,4 @@ const decryptValue = async encrypted => {
   }
 };
 
-module.exports = { decryptValue };
+export { decryptValue };

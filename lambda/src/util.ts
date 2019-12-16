@@ -1,11 +1,16 @@
-const ejs = require("ejs");
-const { decryptValue } = require("./kms");
+import ejs, { Data } from "ejs";
+import { decryptValue } from "./kms";
+import { APIGatewayEvent } from "aws-lambda";
 
 const viewDir = "./view";
 const successView = `${viewDir}/success.ejs`;
 const errorView = `${viewDir}/error.ejs`;
 
-const env = async (key, isEncrypted, defaultValue = null) => {
+const env = async (
+  key: string,
+  isEncrypted: boolean,
+  defaultValue: any = null
+): Promise<string> => {
   if (!process.env[key]) {
     return defaultValue;
   }
@@ -17,11 +22,11 @@ const env = async (key, isEncrypted, defaultValue = null) => {
   return await decryptValue(process.env[key]);
 };
 
-const getQueryParam = (event, key) => {
+const getQueryParam = (event: APIGatewayEvent, key: string): string | null => {
   return event.queryStringParameters && event.queryStringParameters[key];
 };
 
-const handleParams = event => {
+const handleParams = (event: APIGatewayEvent): string => {
   const city = getCity(event);
   const ipAddress = getIpAddress(event);
 
@@ -36,8 +41,12 @@ const handleParams = event => {
   throw new Error("No city parameter passed or IP address not available");
 };
 
-const getAccessKey = event => {
-  const accessKey = env("ACCESS_KEY", true, getQueryParam(event, "access_key"));
+const getAccessKey = async (event: APIGatewayEvent): Promise<string> => {
+  const accessKey = await env(
+    "ACCESS_KEY",
+    true,
+    getQueryParam(event, "access_key")
+  );
 
   if (!accessKey) {
     throw new Error("No Access key passed!");
@@ -46,11 +55,11 @@ const getAccessKey = event => {
   return accessKey;
 };
 
-const getCity = event => {
+const getCity = (event: APIGatewayEvent): string | null => {
   return getQueryParam(event, "city");
 };
 
-const getIpAddress = event => {
+const getIpAddress = (event: APIGatewayEvent): string | null => {
   return (
     event.requestContext &&
     event.requestContext.identity &&
@@ -58,13 +67,16 @@ const getIpAddress = event => {
   );
 };
 
-const renderHtml = async (success, data) => {
+const renderHtml = async (success: boolean, data: Data): Promise<string> => {
   const filename = success ? successView : errorView;
 
   return await ejs.renderFile(filename, data);
 };
 
-const response = async (statusCode, content) => {
+const response = async (
+  statusCode: number,
+  content: Data
+): Promise<Response> => {
   const html = await renderHtml(statusCode == 200, content);
 
   return {
@@ -76,4 +88,4 @@ const response = async (statusCode, content) => {
   };
 };
 
-module.exports = { getAccessKey, handleParams, response };
+export { getAccessKey, handleParams, response };

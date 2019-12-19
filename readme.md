@@ -1,8 +1,14 @@
 # Serverless Weather App 🌦🏗ƛ
 <p align="center"> 
-    <img src="docs/assets/preview.png" width="50%" alt="Success Reponse Preview">
-    <img src="docs/assets/error.png" width="50%" alt="Error Handling Preview">
+    <img src="docs/assets/preview.png" alt="Success Reponse Preview">
+    <span text-align="left" style="display:block; text-align: left; font-style: italic;">Successful Response</span>
 </p>
+<p align="center"> 
+    <img src="docs/assets/error.png" alt="Error Handling Preview">
+    <span text-align="left" style="display:block; text-align: left; font-style: italic;">Failed Response</span>
+</p>
+
+---
 
 This is a simple weather widget built using a lambda function sitting infront of an API Gateway to handle requests.
 

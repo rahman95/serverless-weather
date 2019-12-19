@@ -1,11 +1,26 @@
 import ejs, { Data } from 'ejs';
-import { decryptValue } from './kms';
 import { APIGatewayEvent } from 'aws-lambda';
+import axios, { AxiosResponse } from 'axios';
+import { decryptValue } from './kms';
+
+const apiBaseUrl = 'http://api.weatherstack.com/current';
 
 const viewDir = './view';
 const successView = `${viewDir}/success.ejs`;
 const errorView = `${viewDir}/error.ejs`;
 
+const getWeather = async (accessKey: string, query: string): Promise<AxiosResponse> => {
+  const res = await axios.get(`${apiBaseUrl}`, {
+    params: {
+      access_key: accessKey,
+      query,
+    },
+  });
+
+  return res;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const env = async (key: string, isEncrypted: boolean, defaultValue: any = null): Promise<string> => {
   if (!process.env[key]) {
     return defaultValue;
@@ -15,11 +30,19 @@ const env = async (key: string, isEncrypted: boolean, defaultValue: any = null):
     return process.env[key];
   }
 
-  return await decryptValue(process.env[key]);
+  return decryptValue(process.env[key]);
 };
 
 const getQueryParam = (event: APIGatewayEvent, key: string): string | null => {
   return event.queryStringParameters && event.queryStringParameters[key];
+};
+
+const getCity = (event: APIGatewayEvent): string | null => {
+  return getQueryParam(event, 'city');
+};
+
+const getIpAddress = (event: APIGatewayEvent): string | null => {
+  return event.requestContext && event.requestContext.identity && event.requestContext.identity.sourceIp;
 };
 
 const handleParams = (event: APIGatewayEvent): string => {
@@ -47,22 +70,14 @@ const getAccessKey = async (event: APIGatewayEvent): Promise<string> => {
   return accessKey;
 };
 
-const getCity = (event: APIGatewayEvent): string | null => {
-  return getQueryParam(event, 'city');
-};
-
-const getIpAddress = (event: APIGatewayEvent): string | null => {
-  return event.requestContext && event.requestContext.identity && event.requestContext.identity.sourceIp;
-};
-
 const renderHtml = async (success: boolean, data: Data): Promise<string> => {
   const filename = success ? successView : errorView;
 
-  return await ejs.renderFile(filename, data);
+  return ejs.renderFile(filename, data);
 };
 
-const response = async (statusCode: number, content: Data): Promise<Response> => {
-  const html = await renderHtml(statusCode == 200, content);
+const response = async (statusCode: number, success: boolean, content: Data): Promise<Response> => {
+  const html = await renderHtml(success, content);
 
   return {
     statusCode,
@@ -73,4 +88,4 @@ const response = async (statusCode: number, content: Data): Promise<Response> =>
   };
 };
 
-export { getAccessKey, handleParams, response };
+export { getWeather, getAccessKey, handleParams, response };

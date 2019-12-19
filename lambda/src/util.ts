@@ -1,23 +1,27 @@
 import ejs, { Data } from 'ejs';
 import { APIGatewayEvent } from 'aws-lambda';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { decryptValue } from './kms';
 
 const apiBaseUrl = 'http://api.weatherstack.com/current';
-
 const viewDir = './view';
 const successView = `${viewDir}/success.ejs`;
 const errorView = `${viewDir}/error.ejs`;
 
-const getWeather = async (accessKey: string, query: string): Promise<AxiosResponse> => {
+const getWeather = async (accessKey: string, query: string): Promise<WeatherData> => {
   const res = await axios.get(`${apiBaseUrl}`, {
     params: {
       access_key: accessKey,
       query,
     },
   });
+  const { data } = res;
 
-  return res;
+  if (!data || !Object.prototype.hasOwnProperty.call(data, 'location')) {
+    throw new Error('No Weather data found!');
+  }
+
+  return data;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

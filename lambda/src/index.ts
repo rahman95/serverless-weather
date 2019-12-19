@@ -7,11 +7,7 @@ const handler = async (event: APIGatewayEvent): Promise<Response> => {
     const query = handleParams(event);
     const weather = await getWeather(accessKey, query);
 
-    if (weather.status !== 200) {
-      throw new Error('No Weather data found!');
-    }
-
-    return response(200, true, { weather: weather.data });
+    return response(200, true, { weather });
   } catch (err) {
     return response(500, false, { message: err.message });
   }

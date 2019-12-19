@@ -10,11 +10,11 @@
 
 ---
 
-This is a simple weather widget built using a lambda function sitting infront of an API Gateway to handle requests.
+This is a simple weather widget built using a `Lambda` and `API Gateway`.
 
-The lambda is responsible of making API calls and fetching the weather for your location which is geolocated using your IP Address. This of course isn't a super accurate identifier, so I have added support of passing query string parameters for finer grained control on the weather data.
+The Lambda is responsible for making API calls and fetching the weather for your location which is geolocated using your IP Address. This of course isn't a super accurate identifier, so I have added support of passing query string parameters for finer grained control on the weather data that is returned.
 
-This project is built using TypeScipt and Terraform and hosted on the AWS cloud.
+This project is built using `TypeScipt` and `Terraform` and hosted on the `AWS cloud`.
 
 ## Deployment
 ### Scripts

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint --ext .js,.ts,.tsx ./lambda/src/",
     "zip": "./scripts/build_lambda_layers.sh",
     "build": "tsc",
     "copy:assets": "cp -r lambda/src/view lambda/dist/",

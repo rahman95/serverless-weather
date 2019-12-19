@@ -14,8 +14,7 @@
     ],
     "plugins": ["@typescript-eslint", "import", "prettier"],
     "env": {
-      "node": true,
-      "jest/globals": true
+      "node": true
     },
     "parserOptions": {
       "ecmaVersion": 2017,

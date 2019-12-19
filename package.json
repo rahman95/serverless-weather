@@ -5,12 +5,14 @@
   "scripts": {
     "zip": "./scripts/build_lambda_layers.sh",
     "build": "tsc",
+    "copy:assets": "cp -r lambda/src/view lambda/dist/",
+    "cleanup": "rm -rf lambda/dist/*",
     "tf:init": "cd terraform; terraform init",
     "tf:plan": "cd terraform; terraform plan -var-file ./config/terraform.tfvars",
-    "tf:apply": "yarn build; cd terraform; terraform apply -var-file ./config/terraform.tfvars",
+    "tf:apply": "yarn build; yarn copy:assets; cd terraform; terraform apply -var-file ./config/terraform.tfvars; yarn cleanup",
     "tf:destroy": "cd terraform; terraform destroy -auto-approve -var-file ./config/terraform.tfvars",
-    "deploy:all": "yarn build; yarn zip; yarn tf:apply -auto-approve",
-    "update:all": "yarn tf:destroy -auto-approve; yarn build; yarn zip; yarn tf:apply -auto-approve"
+    "deploy:all": "yarn build; yarn copy:assets; yarn zip; yarn tf:apply -auto-approve; yarn cleanup",
+    "update:all": "yarn tf:destroy -auto-approve; yarn build; yarn copy:assets; yarn zip; yarn tf:apply -auto-approve; yarn cleanup"
   },
   "repository": "git@github.com:rahman95/serverless-weather.git",
   "author": "Rahman Younus <rahman_95@live.co.uk>",

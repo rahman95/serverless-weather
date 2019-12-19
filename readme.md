@@ -38,10 +38,3 @@ By default the lambda will use your IP address for geo-location and fetching of 
 <p align="center"> 
     ☀️🌤🌧⛈🌨❄️
 </p>
-
-
-
-
-
-
-

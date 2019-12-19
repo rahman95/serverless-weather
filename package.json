@@ -7,10 +7,10 @@
     "build": "tsc",
     "tf:init": "cd terraform; terraform init",
     "tf:plan": "cd terraform; terraform plan -var-file ./config/terraform.tfvars",
-    "tf:apply": "cd terraform; terraform apply -var-file ./config/terraform.tfvars",
+    "tf:apply": "yarn build; cd terraform; terraform apply -var-file ./config/terraform.tfvars",
     "tf:destroy": "cd terraform; terraform destroy -auto-approve -var-file ./config/terraform.tfvars",
-    "deploy:all": "yarn zip; yarn tf:apply -auto-approve",
-    "update:all": "yarn tf:destroy -auto-approve; yarn zip; yarn tf:apply -auto-approve"
+    "deploy:all": "yarn build; yarn zip; yarn tf:apply -auto-approve",
+    "update:all": "yarn tf:destroy -auto-approve; yarn build; yarn zip; yarn tf:apply -auto-approve"
   },
   "repository": "git@github.com:rahman95/serverless-weather.git",
   "author": "Rahman Younus <rahman_95@live.co.uk>",
@@ -25,6 +25,14 @@
     "@types/aws-sdk": "^2.7.0",
     "@types/ejs": "^3.0.0",
     "@types/node": "^12.12.18",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-typescript": "^6.3.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1",
     "ts-node": "^8.5.4",
     "tsc": "^1.20150623.0",
     "typescript": "^3.7.2"

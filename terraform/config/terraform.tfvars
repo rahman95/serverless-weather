@@ -1,1 +1,2 @@
+# WeatherStack API Key - This api key will need to replaced as its encrypted using my KMS key and therefore cannot be used by others
 api_access_key = "AQICAHgUji3VYa2QwVErht66x6u1BNbLxB42Xv21upJjeeICpAG4l/KIWjKmTnBX3FM1ws1zAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMjlX5PBeaYt1WMXQLAgEQgDvaQEtOqZMqiCa6l4KB6uakgfYVUST+xGpsnfUVDoYA/9qH0QXS2S0vDqXOeSLy/oDNRtYQ2wCl/XkQmg=="
